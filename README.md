@@ -45,54 +45,7 @@ helm install zookeeper bitnami/zookeeper --namespace default
 helm install kafka bitnami/kafka --namespace default
 ```
 ### 2.2 Implantar Kafka Connect no EKS
-Crie um arquivo kafka-connect-deployment.yaml com a configuração básica do Kafka Connect:
-```
-apiVersion: apps/v
-kind: Deployment
-metadata:
-name: kafka-connect
-namespace: default
-spec:
-replicas: 1
-selector:
-matchLabels:
-app: kafka-connect
-template:
-metadata:
-labels:
-app: kafka-connect
-spec:
-containers:
-- name: kafka-connect
-image: confluentinc/cp-kafka-connect:latest
-ports:
-- containerPort: 8083
-env:
-- name: CONNECT_BOOTSTRAP_SERVERS
-value: "kafka:9092"
-- name: CONNECT_REST_PORT
-value: "8083"
-- name: CONNECT_GROUP_ID
-value: "kafka-connect-group"
-- name: CONNECT_CONFIG_STORAGE_TOPIC
-value: "kafka-connect-configs"
-- name: CONNECT_OFFSET_STORAGE_TOPIC
-value: "kafka-connect-offsets"
-- name: CONNECT_STATUS_STORAGE_TOPIC
-value: "kafka-connect-status"
-- name: CONNECT_KEY_CONVERTER
-value: "org.apache.kafka.connect.storage.StringConverter"
-- name: CONNECT_VALUE_CONVERTER
-value: "org.apache.kafka.connect.storage.StringConverter"
-- name: CONNECT_PLUGIN_PATH
-value: "/usr/share/java,/etc/kafka-connect/jars"
-volumeMounts:
-- name: kafka-connect-plugins
-mountPath: /etc/kafka-connect/jars
-volumes:
-- name: kafka-connect-plugins
-emptyDir: {}
-```
+
 Implante o Kafka Connect:
 ```
 kubectl apply -f kafka-connect-deployment.yaml
