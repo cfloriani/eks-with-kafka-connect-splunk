@@ -1,0 +1,3 @@
+[submodule "kafka-connect-splunk"]
+	path = kafka-connect-splunk
+	url = https://github.com/splunk/kafka-connect-splunk.git
